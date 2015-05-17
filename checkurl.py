@@ -16,8 +16,6 @@ CHECK_TIME = 60
 #Websites to check
 WEB = 'http//your_website'
 HOSTING_PROVIDER ='http://your_provider_website'
-#Path for logs - Default is the folder where you saved the script
-LOG = os.getcwd()+'/conections.txt'
 #Telegram username to send notifications
 USER = 'User'
 ##########
@@ -26,17 +24,9 @@ USER = 'User'
 REPOSITORY= "https://github.com/vysheng/tg.git"
 #####
 
-parser = argparse.ArgumentParser(description = "Script to check websites status")
-parser.add_argument("-a", "--autostart",action="store_true", help="Run demonized at startup")
+parser = argparse.ArgumentParser(description = "Script to check websites status and send notifications with Telegram", epilog="Please report any bugs or suggestions to santisjb@gmail.com")
 parser.add_argument("-n", "--noinstall", action="store_true", help="Use it to start without Telegram installation")
 args = parser.parse_args()
-
-if (args.autostart):
-     for line in fileinput.input('/etc/rc.local', inplace=True):
-          if not line.strip() == "python " + os.getcwd() + '/checkurl.py -an':
-               if line.strip() == 'exit 0':
-                    print "python " +  os.getcwd() + '/checkurl.py -an'
-               print line,
 
 def installTelegram(path,repository):
 
@@ -66,11 +56,10 @@ def main():
           provider_code= "provider error"
 
        if code != 200:
-          with open(LOG,'a') as log:
-               MSG = time.strftime("%H:%M:%S - %d/%m/%Y - ")+str(code)+" in "+WEB+" ; provedor code = "+str(provider_code)+"\n"
-               log.write(MSG)
-               subprocess.call('telegram-cli -WR -e "msg ' + USER + ' ' +  MSG + ' " ',shell=True)               
-            
+            MSG = time.strftime("%H:%M:%S - %d/%m/%Y - ")+str(code)+" in "+WEB+" ; provedor code = "+str(provider_code)+"\n"
+               
+            subprocess.call('telegram-cli -WR -e "msg ' + USER + ' ' +  MSG + ' " ',shell=True)
+               
        time.sleep(CHECK_TIME)
 
 
