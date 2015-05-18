@@ -58,13 +58,13 @@ def main():
        if code != 200:
             MSG = time.strftime("%H:%M:%S - %d/%m/%Y - ")+str(code)+" in "+WEB+" ; provedor code = "+str(provider_code)+"\n"
                
-            subprocess.call('telegram-cli -WR -e "msg ' + USER + ' ' +  MSG + ' " ',shell=True)
+            subprocess.call('telegram-cli -WR -U root -e "msg ' + USER + ' ' +  MSG + ' " ',shell=True)
                
        time.sleep(CHECK_TIME)
 
 
 if __name__ == '__main__':
-
+  
     if(args.noinstall == False):
     
         telegram = raw_input("Do you want to install Telegram?(yes/no): ")
@@ -90,6 +90,6 @@ if __name__ == '__main__':
         
         else:
         
-            print ("something wrong!")
+           print ("something wrong!")
     else:
-        main()
+       main()
