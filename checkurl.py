@@ -14,8 +14,7 @@ import fileinput
 #Time among checks
 CHECK_TIME = 60
 #Websites to check
-WEB = 'http//your_website'
-HOSTING_PROVIDER ='http://your_provider_website'
+WEB = 'http://your_website'
 #Telegram username to send notifications
 USER = 'User'
 ##########
@@ -49,14 +48,9 @@ def main():
           code = f.getcode()
        except:
           code = "error"
-       try:
-          provider_f = urllib2.urlopen(HOSTING_PROVIDER)
-          provider_code = provider_f.getcode()
-       except:
-          provider_code= "provider error"
-
+       
        if code != 200:
-            MSG = time.strftime("%H:%M:%S - %d/%m/%Y - ")+str(code)+" in "+WEB+" ; provedor code = "+str(provider_code)+"\n"
+            MSG = time.strftime("%H:%M:%S - %d/%m/%Y - ")+str(code)+" in "+WEB+" \n"
                
             subprocess.call('telegram-cli -WR -U root -e "msg ' + USER + ' ' +  MSG + ' " ',shell=True)
                
